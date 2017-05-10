@@ -1,20 +1,53 @@
-
 <!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="utf-8" />
 		<link rel="stylesheet" type="text/css" href="css/seckill.css" charset="UTF-8"> 
 		<title>秒杀系统</title>
+		<script type="text/javascript">
+			var xmlHttpRequest = null;
+			var url = "http://localhost/seckill/second.php";	
+			function ajaxRequest() {
+				//IE浏览器
+				if(window.ActiveXObject) {
+					xmlHttpRequest = new ActiveXObject("Microsoft.XMLHTTP");
+				}
+				//除IE外的浏览器
+				else if(window.xmlHttpRequest) {
+					xmlHttpRequest = new XMLHttpRequest();
+				}
+				if(null != xmlHttpRequest) {
+					var v1 = 232;//商品ID,var v1 = document.getElementById("value1").value;
+					var userid = 888;//用户ID,var v2 = document.getElementById("value2").value;
+					
+					xmlHttpRequest.onreadystatechange = ajaxCallBack;
+					xmlHttpRequest.open("GET",url + "?id=" + v1 + "&userid=" + userid,true);//xmlHttpRequest.open("GET",url + "?v1=" + v1 + "&v2=" + v2,true);
+					xmlHttpRequest.send();
+				}
+			}
+			
+			function ajaxCallBack() {
+				if(xmlHttpRequest.readyState == 4) {	//服务器响应成功
+					if(xmlHttpRequest.status == 200) {	//HTTP请求成功
+						var content = xmlHttpRequest.responseText;
+						var obj = eval("("+content+")");
+						alert(obj.errno);
+						//document.getElementById("div1").innerHTML = content;
+					}
+				}
+			}
+			setTimeout(ajaxRequest,1000);
+		</script>
 	</head>
 	<body>
-		<div class="mp-content est-main">
+		<div class="mp-content ">
 			<ul class="itemlist border-list" id="anti-encrypt" data-click="{act:'a',  mod:'mainItem'}">
 				<li class="mp-single-item" data-gap="-208689" style="bottom: 0px; z-index: 1;">
 			<div class="item-info"> 
 		    <img src="http://boscdn.bpc.baidu.com/resource/fFhOBIgLuUhIBUVenFvkrUVwZWAqBmsenGv3XURbZIgwBIsRuWhS.jpg" class="item-logo">
 		    <h4 class="item-discount">秒杀价<em>1元</em>&nbsp;&nbsp;&nbsp;&nbsp;原价5999元</h4> 
 		    <h4 class="item-stitle">   苹果iphone手机限时<b style="color:black;background-color:#A0FFFF">特卖</b>！</h4> 
-		    <p class="item-time">剩余 <span class="mp-remain-time"></span></p>
+		    <p class="item-time">离开始：<span class="mp-remain-time">52</span>秒</p>
 		    <p class="item-source">
 			<span class="item-source-inner">1号店</span>
 					    </p>
